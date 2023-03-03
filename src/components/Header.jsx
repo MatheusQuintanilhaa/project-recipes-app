@@ -12,23 +12,28 @@ export default function Header({ title }) {
     true,
   );
 
-  // Define uma função para renderizar o botão de busca, se estiver na página certa
-  const showButton = () => {
-    if (location.pathname === '/drinks' || location.pathname === '/meals') {
-      return <img src={ searchIcon } alt="icon-search" data-testid="search-top-btn" />;
-    }
-  };
-
   // Define uma função para lidar com o clique no botão de perfil
   const makePerfil = () => {
     history.push('/profile');
   };
 
   // Define uma função para lidar com o clique no botão de busca
-  const searchEnable = () => {
-    setResults(
-      false,
-    );
+  const searchEnable = (e) => {
+    e.preventDefault();
+    setResults(!getResults);
+  };
+
+  // Define uma função para renderizar o botão de busca, se estiver na página certa
+  const showButton = () => {
+    if (location.pathname === '/drinks' || location.pathname === '/meals') {
+      return (
+        <div>
+          <button onClick={ searchEnable }>
+            <img src={ searchIcon } alt="icon-search" data-testid="search-top-btn" />
+          </button>
+        </div>
+      );
+    }
   };
 
   return (
@@ -38,12 +43,13 @@ export default function Header({ title }) {
       <button onClick={ makePerfil }>
         <img src={ profileIcon } alt="icon-profile" data-testid="profile-top-btn" />
       </button>
-      <button data-testid="search-button" onClick={ searchEnable }>Buscar</button>
-      {getResults && (
-        <form>
-          <input data-testid="search-input" type="text" placeholder="Pesquisar..." />
-        </form>
-      )}
+      <div>
+        {!getResults && (
+          <form>
+            <input data-testid="search-input" type="text" placeholder="Pesquisar..." />
+          </form>
+        )}
+      </div>
     </>
   );
 }
