@@ -1,0 +1,54 @@
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import searchIcon from '../images/searchIcon.svg';
+import profileIcon from '../images/profileIcon.svg';
+
+export default function Header({ title }) {
+  const history = useHistory(); const location = useLocation();
+
+  // Define o estado inicial do componente, e uma função para atualizá-lo
+  const [getResults, setResults] = useState(
+    true,
+  );
+
+  // Define uma função para renderizar o botão de busca, se estiver na página certa
+  const showButton = () => {
+    if (location.pathname === '/drinks' || location.pathname === '/meals') {
+      return <img src={ searchIcon } alt="icon-search" data-testid="search-top-btn" />;
+    }
+  };
+
+  // Define uma função para lidar com o clique no botão de perfil
+  const makePerfil = () => {
+    history.push('/profile');
+  };
+
+  // Define uma função para lidar com o clique no botão de busca
+  const searchEnable = () => {
+    setResults(
+      false,
+    );
+  };
+
+  return (
+    <>
+      <h3 data-testid="page-title">{title}</h3>
+      {showButton()}
+      <button onClick={ makePerfil }>
+        <img src={ profileIcon } alt="icon-profile" data-testid="profile-top-btn" />
+      </button>
+      <button data-testid="search-button" onClick={ searchEnable }>Buscar</button>
+      {getResults && (
+        <form>
+          <input data-testid="search-input" type="text" placeholder="Pesquisar..." />
+        </form>
+      )}
+    </>
+  );
+}
+
+// Define as propriedades que o componente espera receber
+Header.propTypes = {
+  title: PropTypes.string.isRequired,
+};

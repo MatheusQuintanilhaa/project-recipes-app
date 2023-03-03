@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import CookProvider from './context/CookProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
-  .render(<App />);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+  .render(
+    <BrowserRouter>
+      <CookProvider>
+        <App />
+      </CookProvider>
+    </BrowserRouter>,
+  );
+// fonte :https://gist.github.com/ANDREHORMAN1994/e299f113e3e750276e8da0a8982b59f4
