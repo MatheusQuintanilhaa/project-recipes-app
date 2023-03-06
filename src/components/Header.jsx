@@ -47,7 +47,7 @@ export default function Header({ title }) {
       <div>
         {!getResults && (
           <form>
-            <input data-testid="search-input" type="text" placeholder="Pesquisar..." />
+            {/* <input data-testid="search-input" type="text" placeholder="Pesquisar..." /> */}
           </form>
         )}
       </div>
