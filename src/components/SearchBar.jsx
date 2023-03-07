@@ -24,7 +24,6 @@ export default function SearchBar() {
       // solicitação com fetch recebendo resposta como objeto json, de DataMeals
       const response = await (await fetch(url)).json();
       setMealsData(response);
-      console.log(setDrinksData);
     }
 
     if (history.location.pathname === '/drinks') {
@@ -41,7 +40,6 @@ export default function SearchBar() {
       // solicitação com fetch recebendo resposta como objeto json, de DataDrinks
       const response = await (await fetch(url)).json();
       setDrinksData(response);
-      console.log(setDrinksData);
     }
   };
 
