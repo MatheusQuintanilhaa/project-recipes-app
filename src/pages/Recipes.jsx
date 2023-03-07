@@ -16,7 +16,7 @@
 //   );
 // }
 import React, { useEffect, useState } from 'react';
-import { fetchDrinksRecipes, fetchMealsRecipes } from '../fetchApi/apis';
+// import { fetchDrinksRecipes, fetchMealsRecipes } from '../fetchApi/apis';
 
 function Recipes() {
   const [drinks, setDrinks] = useState([]);
