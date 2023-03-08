@@ -5,10 +5,16 @@ import CookContext from './CookContext';
 const INITIAL_STATE = { inicial: 'incial' };
 
 function CookProvider({ children }) {
+  const [mealsData, setMealsData] = useState([]);
+  const [drinksData, setDrinksData] = useState([]);
   const [state] = useState(INITIAL_STATE);
   const memo = useMemo(() => ({
+    mealsData,
+    setMealsData,
+    drinksData,
+    setDrinksData,
     state,
-  }), [state]);
+  }), [state, mealsData, drinksData]);
 
   return (
     <CookContext.Provider value={ memo }>{children}</CookContext.Provider>

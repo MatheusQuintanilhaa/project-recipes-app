@@ -8,7 +8,6 @@ export default function SearchBar() {
   const { setMealsData, setDrinksData } = useContext(CookContext);
   const history = useHistory();
 
-  // função faz comparações entre os inputs recebidos. Recebe o pathname- (string) O caminho da URL com o history.
   const handleSearch = async (input) => {
     if (history.location.pathname === '/meals') {
       let url = '';
@@ -21,7 +20,6 @@ export default function SearchBar() {
       if (radioButton === 'firstLetter') {
         url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`;
       }
-      // solicitação com fetch recebendo resposta como objeto json, de DataMeals
       const response = await (await fetch(url)).json();
       setMealsData(response);
     }
@@ -37,13 +35,11 @@ export default function SearchBar() {
       if (radioButton === 'firstLetter') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${input}`;
       }
-      // solicitação com fetch recebendo resposta como objeto json, de DataDrinks
       const response = await (await fetch(url)).json();
       setDrinksData(response);
     }
   };
 
-  // função handle compara valor da entrada, com o que foi selecionado no campo radio e no campo de search. Caso for diferente lançará um alert global.
   const handleChange = ({ target }) => {
     if (target.value.length > 1 && radioButton === 'firstLetter') {
       return global.alert('Your search must have only 1 (one) character');
@@ -64,7 +60,7 @@ export default function SearchBar() {
         <input
           type="radio"
           data-testid="ingredient-search-radio"
-          checked={ radioButton === 'ingredient' } // verifica Captura do inputRadio pelo ingrediente
+          checked={ radioButton === 'ingredient' }
           value="ingredient"
           onChange={ ({ target }) => setRadioButton(target.value) }
           name="select"
@@ -73,14 +69,14 @@ export default function SearchBar() {
         <input
           type="radio"
           data-testid="name-search-radio"
-          checked={ radioButton === 'searchName' } // verifica Captura do inputRadio pelo 'nome', Recipes
+          checked={ radioButton === 'searchName' }
           value="searchName"
           onChange={ ({ target }) => setRadioButton(target.value) }
           name="select"
         />
         <label htmlFor="name">Recipes</label>
         <input
-          checked={ radioButton === 'firstLetter' } // verifica Captura do input com primeira letra
+          checked={ radioButton === 'firstLetter' }
           value="firstLetter"
           onChange={ ({ target }) => {
             setRadioButton(target.value);

@@ -17,6 +17,7 @@
 // }
 import React, { useEffect, useState } from 'react';
 // import { fetchDrinksRecipes, fetchMealsRecipes } from '../fetchApi/apis';
+import RecipesCards from '../components/RecipesCads';
 
 function Recipes() {
   const [drinks, setDrinks] = useState([]);
@@ -78,6 +79,7 @@ function Recipes() {
           ))
         ) }
       </div>
+      <RecipesCards />
     </section>
 
   );
