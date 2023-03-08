@@ -46,7 +46,11 @@ function FavoriteRecipes() {
   return (
     <div>
 
-      <Header pathName={ history.location.pathname } canSearch={ false } />
+      <Header
+        pathName={ history.location.pathname }
+        canSearch={ false }
+        title="Favorite Recipes"
+      />
 
       <section>
         {notes}
