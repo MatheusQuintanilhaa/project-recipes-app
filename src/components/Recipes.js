@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import CookContext from '../context/CookContext';
 
 function Recipes() {
@@ -13,8 +13,7 @@ function Recipes() {
   const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeFilter, setActiveFilter] = useState(false);
-  const { pathname } = useLocation();
-
+  const { location: { pathname } } = useHistory();
   const MAX_RECIPES = 12;
   const MAX_CATEGORIES = 5;
 
@@ -149,8 +148,8 @@ function Recipes() {
           >
             <img
               data-testid={ `${index}-card-img` }
-              width="30"
-              height="30"
+              width="60px"
+              height="60px"
               alt={ recipe.strMeal }
               src={ recipe.strMealThumb }
             />
@@ -164,8 +163,8 @@ function Recipes() {
           >
             <img
               data-testid={ `${index}-card-img` }
-              width="50"
-              height="50"
+              width="60px"
+              height="60px"
               alt={ recipe.strDrink }
               src={ recipe.strDrinkThumb }
             />

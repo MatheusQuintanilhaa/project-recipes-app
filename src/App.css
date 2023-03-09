@@ -15,6 +15,19 @@
   max-height: 80vh;
 }
 
+.recipe-details__recommendations{
+  display: flex;
+  width: 300px;
+  overflow: scroll;
+  height: 150px;
+}
+
+.recipe-details__recommendations_card{
+  min-width: 140px;
+  margin: 5px;
+  height: 150px;
+}
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;

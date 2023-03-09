@@ -14,9 +14,9 @@ function App() {
   return (
     <CookProvider>
       <Switch>
-        <Route path="/drinks:id" component={ RecipeDetails } />
+        <Route path="/drinks/:id" component={ RecipeDetails } />
         <Route path="/drinks" component={ Drinks } />
-        <Route path="/meals:id" component={ RecipeDetails } />
+        <Route path="/meals/:id" component={ RecipeDetails } />
         <Route path="/meals" component={ Meals } />
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
