@@ -5,19 +5,46 @@ import CookContext from './CookContext';
 const INITIAL_STATE = { inicial: 'incial' };
 
 function CookProvider({ children }) {
+  const urlFood = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const urlDrink = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const urlFoodCategories = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  const urlDrinkCategories = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  const [state] = useState(INITIAL_STATE);
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
-  const [state] = useState(INITIAL_STATE);
+  const [recipeDetail, SetRecipeDetail] = useState([]);
+
   const memo = useMemo(() => ({
+    state,
+    urlFood,
+    urlDrink,
+    urlFoodCategories,
+    urlDrinkCategories,
+    recipeDetail,
+    SetRecipeDetail,
     mealsData,
     setMealsData,
     drinksData,
     setDrinksData,
+  }), [
     state,
-  }), [state, mealsData, drinksData]);
+    urlFood,
+    urlDrink,
+    urlFoodCategories,
+    urlDrinkCategories,
+    recipeDetail,
+    mealsData,
+    setMealsData,
+    drinksData,
+    setDrinksData,
+  ]);
 
   return (
-    <CookContext.Provider value={ memo }>{children}</CookContext.Provider>
+    <CookContext.Provider
+      value={ memo }
+    >
+      {children}
+    </CookContext.Provider>
   );
 }
 
