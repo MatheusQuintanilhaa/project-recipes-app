@@ -7,6 +7,8 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Meals from './pages/Meals';
 import Drinks from './pages/Drinks';
+import CookProvider from './context/CookProvider';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -19,6 +21,7 @@ function App() {
         <Route path="/profile" component={ Profile } />
         <Route path="/done-recipes" component={ DoneRecipes } />
         <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/" component={ Login } />
       </Switch>
     </CookProvider>
   );
