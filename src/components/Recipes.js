@@ -69,7 +69,7 @@ function Recipes() {
       fetchApiDrink();
       fetchApiDrinksCategories();
     }
-  }, []);
+  }, []); // eslint-disable-line
 
   const btnFilter = (e) => {
     setActiveFilter(!activeFilter);
