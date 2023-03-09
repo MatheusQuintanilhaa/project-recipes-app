@@ -28,6 +28,21 @@
   min-width: 140px;
 }
 
+.start-recipe-btn {
+  background: #0fa36b;
+  border: none;
+  border-radius: 5px;
+  bottom: 0;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: 700;
+  margin: 10px;
+  padding: 10px 20px;
+  position: fixed;
+}
+
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;
