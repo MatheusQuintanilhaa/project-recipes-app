@@ -13,30 +13,29 @@ export default function SearchBar() {
       let url = '';
       if (radioButton === 'ingredient') {
         url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${input}`;
-      }
-      if (radioButton === 'searchName') {
+      } else if (radioButton === 'searchName') {
         url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`;
-      }
-      if (radioButton === 'firstLetter') {
+      } else if (radioButton === 'firstLetter') {
         url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${input}`;
       }
       const response = await (await fetch(url)).json();
-      setMealsData(response);
+      const { meals } = response;
+      setMealsData(meals);
     }
 
     if (history.location.pathname === '/drinks') {
       let url = '';
       if (radioButton === 'ingredient') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${input}`;
-      }
-      if (radioButton === 'searchName') {
+      } else if (radioButton === 'searchName') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${input}`;
-      }
-      if (radioButton === 'firstLetter') {
+      } else if (radioButton === 'firstLetter') {
         url = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${input}`;
       }
       const response = await (await fetch(url)).json();
-      setDrinksData(response);
+      const { drinks } = response;
+      setDrinksData(drinks);
+      console.log('1', drinks);
     }
   };
 

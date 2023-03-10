@@ -5,7 +5,6 @@ import { act } from 'react-dom/test-utils';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
 import SearchBar from '../components/SearchBar';
 import App from '../App';
-import RecipesCards from '../components/RecipesCads';
 
 const FIRST_LETTER_SEARCH_RADIO = 'first-letter-search-radio';
 const SEARCH_INPUT = 'search-input';
@@ -91,37 +90,28 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
   });
 
   it('Verifica se executa uma chamada à API Meals quando realiza uma pesquisa e em caso de sucesso renderiza as receitas', async () => {
-    const mealsByIngredients = RecipesCards;
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(mealsByIngredients),
-    }));
-
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
 
     const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(topSearchBtn);
+
     const searchInput = screen.getByTestId(SEARCH_INPUT);
     userEvent.type(searchInput, 'chicken');
-    const ingredientRadioBtn = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
-    userEvent.click(ingredientRadioBtn);
+
+    const nameSearchBtn = screen.getByTestId(NAME_SEARCH_RADIO);
+    userEvent.click(nameSearchBtn);
+
     const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
     userEvent.click(searchBtn);
 
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken');
-
-    jest.restoreAllMocks();
+    const img = await screen.findByRole('img', { name: /chicken handi/i });
+    expect(img).toBeInTheDocument();
   });
 });
 
 describe('Testes do Componente SearchBar, rota Drinks', () => {
-  it('Verifica se executa uma chamada à API Drinks quando realiza uma pesquisa', () => {
-    const drinksByIngredients = SearchBar;
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(drinksByIngredients),
-    }));
-
+  it('Verifica se executa uma chamada à API Drinks quando realiza uma pesquisa', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
@@ -134,16 +124,11 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
     userEvent.click(searchBtn);
 
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=whiskey');
+    const img = await screen.findByRole('img', { name: /damned if you do/i });
+    expect(img).toBeInTheDocument();
   });
 
-  it('Testa se a API é chamada quando é pesquisado apenas uma letra e o botão "List" é clickado', () => {
-    const drinksByIngredients = SearchBar;
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(drinksByIngredients),
-    }));
-
+  it('Testa se a API é chamada quando é pesquisado apenas uma letra e o botão "List" é clickado', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
@@ -159,12 +144,16 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
     userEvent.click(searchBtn);
 
-    expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a');
+    const img = await screen.findByRole('img', { name: /a1/i });
+    expect(img).toBeInTheDocument();
+
+    const imagens = await screen.findAllByRole('img');
+    expect(imagens).toHaveLength(16);
   });
 
   it('Testando se o alerta aparece na tela quando é selecido o radio First Letter e é colocado 2 letras no input', async () => {
     const drinksByIngredients = SearchBar;
+
     const mockAlert = jest.spyOn(global, 'alert').mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve(drinksByIngredients),
     }));
