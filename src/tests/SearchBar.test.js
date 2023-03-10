@@ -99,6 +99,8 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
 
+    const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(topSearchBtn);
     const searchInput = screen.getByTestId(SEARCH_INPUT);
     userEvent.type(searchInput, 'chicken');
     const ingredientRadioBtn = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
@@ -123,6 +125,8 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
+    const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(topSearchBtn);
     const searchInput = screen.getByTestId(SEARCH_INPUT);
     userEvent.type(searchInput, 'whiskey');
     const ingredientRadioBtn = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
@@ -143,6 +147,8 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
+    const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(topSearchBtn);
     const firstLetterRadio = screen.getByTestId(FIRST_LETTER_SEARCH_RADIO);
     userEvent.click(firstLetterRadio);
 
@@ -166,6 +172,8 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
+    const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(topSearchBtn);
     const firstLetterRadio = screen.getByTestId(FIRST_LETTER_SEARCH_RADIO);
     userEvent.click(firstLetterRadio);
 
@@ -181,6 +189,9 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
   it('Testando se o state é alterado quando é selecioda o radio button', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
+
+    const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(topSearchBtn);
 
     const ingredientRadio = screen.getByTestId('ingredient-search-radio');
     const nameRadio = screen.getByTestId('name-search-radio');
