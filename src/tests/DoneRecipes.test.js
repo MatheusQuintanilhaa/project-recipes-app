@@ -49,6 +49,7 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado todas as receitas ja feitas quando o botão "Items" é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(DONE_RECIPES));
 
@@ -64,8 +65,10 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado apenas as comidas quando o botão "Meals" é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(DONE_RECIPES));
+
 
     const mealButton = screen.getByTestId('filter-by-meal-btn');
     fireEvent.click(mealButton);
@@ -79,8 +82,10 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testando se é renderizado somentes os drinks quando o botão de drinks é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(DONE_RECIPES));
+
 
     const drinkButton = screen.getByTestId('filter-by-drink-btn');
     fireEvent.click(drinkButton);

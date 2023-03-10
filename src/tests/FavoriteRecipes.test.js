@@ -45,6 +45,7 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado todas as receitas favoritadas por padrão', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(FAVORITE_RECIPES));
 
@@ -60,6 +61,7 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado apenas comidas quando o botão "Meals" é clickado', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(FAVORITE_RECIPES));
 
@@ -75,6 +77,7 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testando se é renderizado somentes os drinks quando o botão de drinks é clickado', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+
     const { history } = renderWithRouter(<App />);
     act(() => history.push(FAVORITE_RECIPES));
 
@@ -90,6 +93,7 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testando se quando o botão "Favorite" é clickado se é removido 1 item do localStorage', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+
 
     const { history } = renderWithRouter(<App />);
     act(() => history.push(FAVORITE_RECIPES));
