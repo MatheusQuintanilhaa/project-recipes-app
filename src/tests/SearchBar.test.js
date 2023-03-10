@@ -4,20 +4,19 @@ import React from 'react';
 import { act } from 'react-dom/test-utils';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
 import SearchBar from '../components/SearchBar';
-import CookProvider from '../context/CookProvider';
 import App from '../App';
 import RecipesCards from '../components/RecipesCads';
 
-describe('Testes do Componente SearchBar, rota Meals', () => {
-  const SEARCH_INPUT = 'search-input';
-  const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
-  const NAME_SEARCH_RADIO = 'name-search-radio';
-  const FIRST_LETTER_SEARCH_RADIO = 'first-letter-search-radio';
-  const EXEC_SEARCH_BTN = 'exec-search-btn';
-  const SEARCH_TOP_BTN = 'search-top-btn';
+const FIRST_LETTER_SEARCH_RADIO = 'first-letter-search-radio';
+const SEARCH_INPUT = 'search-input';
+const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
+const EXEC_SEARCH_BTN = 'exec-search-btn';
+const NAME_SEARCH_RADIO = 'name-search-radio';
+const SEARCH_TOP_BTN = 'search-top-btn';
 
+describe('Testes do Componente SearchBar, rota Meals', () => {
   it('Redireciona o campo com nome selecionado', async () => {
-    const { history } = renderWithRouter(<CookProvider><App /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => {
       history.push('/drinks');
     });
@@ -27,18 +26,22 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
     const nameSearchRadio = screen.getByTestId(NAME_SEARCH_RADIO);
     userEvent.click(nameSearchRadio);
     const searchInput = screen.getByTestId(SEARCH_INPUT);
-    userEvent.type(searchInput, 'xablau');
+    userEvent.type(searchInput, 's');
     const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
     userEvent.click(execSearchBtn);
 
-    await waitFor(async () => {
-      const { pathname } = history.location;
-      expect(pathname).toBe('/drinks/178319');
+    await waitFor(() => {
+      const image = screen.getByTestId('0-recipe-card');
+      userEvent.click(image);
+      const h1 = screen.getByRole('heading', {
+        name: /recipe details/i,
+      });
+      expect(h1).toBeInTheDocument();
     }, { timeout: 3000 });
   });
 
   it('Verifica renderização de todos os elementos', () => {
-    const { history } = renderWithRouter(<CookProvider><App /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
     const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(topSearchBtn);
@@ -56,7 +59,7 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
   });
 
   it('Verifica possibilidade de digitar no campo de input', () => {
-    const { history } = renderWithRouter(<CookProvider><App /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
     const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(topSearchBtn);
@@ -67,7 +70,7 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
   });
 
   it('Verifica a possibilidade de usar o campo de input, os botões radio e o botão Search', () => {
-    const { history } = renderWithRouter(<CookProvider><App /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
     const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
     userEvent.click(topSearchBtn);
@@ -93,7 +96,7 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
       json: () => Promise.resolve(mealsByIngredients),
     }));
 
-    const { history } = renderWithRouter(<CookProvider><SearchBar /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => history.push('/meals'));
 
     const searchInput = screen.getByTestId(SEARCH_INPUT);
@@ -109,78 +112,55 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
     jest.restoreAllMocks();
   });
 
-  it('Ao retornar apenas 1 receita da API, deve direcionar para a tela de detalhe da receita, com o id na URL', async () => {
-    const uniqueRecipe = [RecipesCards.meals[0]];
-    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-      json: () => Promise.resolve(uniqueRecipe),
-    }));
-
-    const { history } = renderWithRouter(<SearchBar />);
-    act(() => history.push('/meals'));
-
-    const searchInput = screen.getByTestId(SEARCH_INPUT);
-    userEvent.type(searchInput, 'chicken');
-    const ingredientRadioBtn = screen.getByTestId(INGREDIENT_SEARCH_RADIO);
-    userEvent.click(ingredientRadioBtn);
-    const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
-    userEvent.click(searchBtn);
-
-    jest.restoreAllMocks();
-  });
-
   // it('Ao não retornar nenhuma receita da API, deve exibir um alert', async () => {
-  // const noRecipe = { meals: null };
-  // jest.spyOn(global, 'fetch');
-  // global.fetch = jest.fn().mockResolvedValueOnce({
-  //   json: jest.fn().mockResolvedValue(SearchBar),
-  // }).mockResolvedValueOnce({
-  //   json: jest.fn().mockResolvedValue(SearchBar), //
-  // }).mockResolvedValueOnce({
-  //   json: jest.fn().mockResolvedValue(SearchBar),
-  // })
-  //   .mockResolvedValueOnce({
+  //   const noRecipe = { meals: null };
+  //   jest.spyOn(global, 'fetch');
+  //   global.fetch = jest.fn().mockResolvedValueOnce({
+  //     json: jest.fn().mockResolvedValue(SearchBar),
+  //   }).mockResolvedValueOnce({
   //     json: jest.fn().mockResolvedValue(SearchBar), //
+  //   }).mockResolvedValueOnce({
+  //     json: jest.fn().mockResolvedValue(SearchBar),
   //   })
-  //   .mockResolvedValue({
-  //     json: jest.fn().mockResolvedValue(noRecipe),
-  //   });
+  //     .mockResolvedValueOnce({
+  //       json: jest.fn().mockResolvedValue(SearchBar), //
+  //     })
+  //     .mockResolvedValue({
+  //       json: jest.fn().mockResolvedValue(noRecipe),
+  //     });
 
-  // global.alert = jest.fn().mockReturnValue('Sorry, we haven\'t found any recipes for these filters.');
+  //   global.alert = jest.fn().mockReturnValue('Sorry, we haven\'t found any recipes for these filters.');
 
-  // const { history } = renderWithRouter(<App />);
-  // act(() => history.push('/meals'));
+  //   const { history } = renderWithRouter(<App />);
+  //   act(() => history.push('/meals'));
 
-  // const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
-  // expect(topSearchBtn).toBeInTheDocument();
-  // userEvent.click(topSearchBtn);
+  //   const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
+  //   expect(topSearchBtn).toBeInTheDocument();
+  //   userEvent.click(topSearchBtn);
 
-  // const searchInput = screen.getByTestId(SEARCH_INPUT);
-  // const nameRadioBtn = screen.getByTestId(NAME_SEARCH_RADIO);
-  // const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
+  //   const searchInput = screen.getByTestId(SEARCH_INPUT);
+  //   const nameRadioBtn = screen.getByTestId(NAME_SEARCH_RADIO);
+  //   const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
 
-  // expect(searchInput).toBeInTheDocument();
-  // expect(nameRadioBtn).toBeInTheDocument();
-  // expect(searchBtn).toBeInTheDocument();
+  //   expect(searchInput).toBeInTheDocument();
+  //   expect(nameRadioBtn).toBeInTheDocument();
+  //   expect(searchBtn).toBeInTheDocument();
 
-  // userEvent.type(searchInput, 'xablau');
-  // expect(screen.getByDisplayValue(/xablay/i)).toBeInTheDocument();
-  // userEvent.click(nameRadioBtn);
-  // userEvent.click(searchBtn);
+  //   userEvent.type(searchInput, 'xablau');
+  //   expect(screen.getByDisplayValue(/xablau/i)).toBeInTheDocument();
+  //   userEvent.click(nameRadioBtn);
+  //   userEvent.click(searchBtn);
   // });
 });
 
 describe('Testes do Componente SearchBar, rota Drinks', () => {
-  const SEARCH_INPUT = 'search-input';
-  const INGREDIENT_SEARCH_RADIO = 'ingredient-search-radio';
-  const EXEC_SEARCH_BTN = 'exec-search-btn';
-
   it('Verifica se executa uma chamada à API Drinks quando realiza uma pesquisa', () => {
     const drinksByIngredients = SearchBar;
     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
       json: () => Promise.resolve(drinksByIngredients),
     }));
 
-    const { history } = renderWithRouter(<CookProvider><SearchBar /></CookProvider>);
+    const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
     const searchInput = screen.getByTestId(SEARCH_INPUT);
@@ -192,5 +172,73 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=whiskey');
+  });
+
+  it('Testa se a API é chamada quando é pesquisado apenas uma letra e o botão "List" é clickado', () => {
+    const drinksByIngredients = SearchBar;
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      json: () => Promise.resolve(drinksByIngredients),
+    }));
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks'));
+
+    const firstLetterRadio = screen.getByTestId(FIRST_LETTER_SEARCH_RADIO);
+    userEvent.click(firstLetterRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+    userEvent.click(searchInput);
+    userEvent.type(searchInput, 'a');
+
+    const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
+    userEvent.click(searchBtn);
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a');
+  });
+
+  it('Testando se o alerta aparece na tela quando é selecido o radio First Letter e é colocado 2 letras no input', async () => {
+    const drinksByIngredients = SearchBar;
+    const mockAlert = jest.spyOn(global, 'alert').mockImplementation(() => Promise.resolve({
+      json: () => Promise.resolve(drinksByIngredients),
+    }));
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks'));
+
+    const firstLetterRadio = screen.getByTestId(FIRST_LETTER_SEARCH_RADIO);
+    userEvent.click(firstLetterRadio);
+
+    const searchInput = screen.getByTestId(SEARCH_INPUT);
+    userEvent.click(searchInput);
+    userEvent.type(searchInput, 'aa');
+
+    await waitFor(() => {
+      expect(mockAlert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+    });
+  });
+
+  it('should update the radio button state when selecting a radio button option', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks'));
+
+    const ingredientRadio = screen.getByTestId('ingredient-search-radio');
+    const nameRadio = screen.getByTestId('name-search-radio');
+    const firstLetterRadio = screen.getByTestId('first-letter-search-radio');
+
+    userEvent.click(nameRadio);
+    expect(nameRadio.checked).toBe(true);
+    expect(ingredientRadio.checked).toBe(false);
+    expect(firstLetterRadio.checked).toBe(false);
+
+    userEvent.click(ingredientRadio);
+    expect(nameRadio.checked).toBe(false);
+    expect(ingredientRadio.checked).toBe(true);
+    expect(firstLetterRadio.checked).toBe(false);
+
+    userEvent.click(firstLetterRadio);
+    expect(nameRadio.checked).toBe(false);
+    expect(ingredientRadio.checked).toBe(false);
+    expect(firstLetterRadio.checked).toBe(true);
   });
 });

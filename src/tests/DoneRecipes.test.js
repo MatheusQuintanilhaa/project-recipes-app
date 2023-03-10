@@ -1,10 +1,12 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import DoneRecipes from '../pages/DoneRecipes';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
+import App from '../App';
 
 const SPICY_ARRABIATA = 'Spicy Arrabiata Penne';
+const DONE_RECIPES = '/done-recipes';
 
 const doneRecipes = [
   {
@@ -33,7 +35,8 @@ const doneRecipes = [
 
 describe('Testando a tela FavoriteRecipes', () => {
   it('Testando se todos os botões são renderizados na tela', () => {
-    renderWithRouter(<DoneRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(DONE_RECIPES));
 
     const allButton = screen.getByTestId('filter-by-all-btn');
     const mealButton = screen.getByTestId('filter-by-meal-btn');
@@ -46,7 +49,8 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado todas as receitas ja feitas quando o botão "Items" é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    renderWithRouter(<DoneRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(DONE_RECIPES));
 
     const allButton = screen.getByTestId('filter-by-all-btn');
     fireEvent.click(allButton);
@@ -60,7 +64,8 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado apenas as comidas quando o botão "Meals" é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    renderWithRouter(<DoneRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(DONE_RECIPES));
 
     const mealButton = screen.getByTestId('filter-by-meal-btn');
     fireEvent.click(mealButton);
@@ -74,7 +79,8 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testando se é renderizado somentes os drinks quando o botão de drinks é clickado', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    renderWithRouter(<DoneRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(DONE_RECIPES));
 
     const drinkButton = screen.getByTestId('filter-by-drink-btn');
     fireEvent.click(drinkButton);
@@ -90,7 +96,9 @@ describe('Testando a tela FavoriteRecipes', () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
     navigator.clipboard = { writeText: jest.fn() };
 
-    renderWithRouter(<DoneRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(DONE_RECIPES));
+
     const shareButton = screen.getByTestId('0-horizontal-share-btn');
     fireEvent.click(shareButton);
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:3000/meals/52771');
