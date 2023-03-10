@@ -111,46 +111,6 @@ describe('Testes do Componente SearchBar, rota Meals', () => {
 
     jest.restoreAllMocks();
   });
-
-  // it('Ao não retornar nenhuma receita da API, deve exibir um alert', async () => {
-  //   const noRecipe = { meals: null };
-  //   jest.spyOn(global, 'fetch');
-  //   global.fetch = jest.fn().mockResolvedValueOnce({
-  //     json: jest.fn().mockResolvedValue(SearchBar),
-  //   }).mockResolvedValueOnce({
-  //     json: jest.fn().mockResolvedValue(SearchBar), //
-  //   }).mockResolvedValueOnce({
-  //     json: jest.fn().mockResolvedValue(SearchBar),
-  //   })
-  //     .mockResolvedValueOnce({
-  //       json: jest.fn().mockResolvedValue(SearchBar), //
-  //     })
-  //     .mockResolvedValue({
-  //       json: jest.fn().mockResolvedValue(noRecipe),
-  //     });
-
-  //   global.alert = jest.fn().mockReturnValue('Sorry, we haven\'t found any recipes for these filters.');
-
-  //   const { history } = renderWithRouter(<App />);
-  //   act(() => history.push('/meals'));
-
-  //   const topSearchBtn = screen.getByTestId(SEARCH_TOP_BTN);
-  //   expect(topSearchBtn).toBeInTheDocument();
-  //   userEvent.click(topSearchBtn);
-
-  //   const searchInput = screen.getByTestId(SEARCH_INPUT);
-  //   const nameRadioBtn = screen.getByTestId(NAME_SEARCH_RADIO);
-  //   const searchBtn = screen.getByTestId(EXEC_SEARCH_BTN);
-
-  //   expect(searchInput).toBeInTheDocument();
-  //   expect(nameRadioBtn).toBeInTheDocument();
-  //   expect(searchBtn).toBeInTheDocument();
-
-  //   userEvent.type(searchInput, 'xablau');
-  //   expect(screen.getByDisplayValue(/xablau/i)).toBeInTheDocument();
-  //   userEvent.click(nameRadioBtn);
-  //   userEvent.click(searchBtn);
-  // });
 });
 
 describe('Testes do Componente SearchBar, rota Drinks', () => {
@@ -218,7 +178,7 @@ describe('Testes do Componente SearchBar, rota Drinks', () => {
     });
   });
 
-  it('should update the radio button state when selecting a radio button option', () => {
+  it('Testando se o state é alterado quando é selecioda o radio button', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push('/drinks'));
 
