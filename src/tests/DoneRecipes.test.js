@@ -69,7 +69,6 @@ describe('Testando a tela FavoriteRecipes', () => {
     const { history } = renderWithRouter(<App />);
     act(() => history.push(DONE_RECIPES));
 
-
     const mealButton = screen.getByTestId('filter-by-meal-btn');
     fireEvent.click(mealButton);
 
@@ -85,7 +84,6 @@ describe('Testando a tela FavoriteRecipes', () => {
 
     const { history } = renderWithRouter(<App />);
     act(() => history.push(DONE_RECIPES));
-
 
     const drinkButton = screen.getByTestId('filter-by-drink-btn');
     fireEvent.click(drinkButton);
