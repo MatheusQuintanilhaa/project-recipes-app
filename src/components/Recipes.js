@@ -8,12 +8,17 @@ function Recipes() {
     urlDrink,
     urlFoodCategories,
     urlDrinkCategories,
+    mealsData,
+    drinksData,
+    recipes,
+    setRecipes,
   } = useContext(CookContext);
 
-  const [recipes, setRecipes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [activeFilter, setActiveFilter] = useState(false);
   const { location: { pathname } } = useHistory();
+  const history = useHistory();
+
   const MAX_RECIPES = 12;
   const MAX_CATEGORIES = 5;
 
@@ -39,6 +44,7 @@ function Recipes() {
         setRecipes(theDrink);
       });
   };
+
   const fetchApiFoodsCategories = () => {
     fetch(urlFoodCategories)
       .then((response) => response.json())
@@ -70,6 +76,20 @@ function Recipes() {
       fetchApiDrinksCategories();
     }
   }, []); // eslint-disable-line
+
+  useEffect(() => {
+    if (mealsData === null || drinksData === null) {
+      return global
+        .alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+    if (mealsData.length !== 0) {
+      const quantLimited = mealsData.filter((meal, index) => index < MAX_RECIPES);
+      setRecipes(quantLimited);
+    } else if (drinksData.length !== 0) { // asd
+      const quantLimits = drinksData.filter((drink, index) => index < MAX_RECIPES);
+      setRecipes(quantLimits);
+    }
+  }, [mealsData, drinksData]); // eslint-disable-line
 
   const btnFilter = (e) => {
     setActiveFilter(!activeFilter);
@@ -116,6 +136,14 @@ function Recipes() {
       fetchApiDrinksCategories();
     }
   };
+
+  if (mealsData && mealsData.length === 1) {
+    return history.push(`/meals/${mealsData[0].idMeal}`);
+  }
+
+  if (drinksData && drinksData.length === 1) {
+    return history.push(`/drinks/${drinksData[0].idDrink}`);
+  }
 
   return (
     <div>
