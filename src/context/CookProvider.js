@@ -13,6 +13,7 @@ function CookProvider({ children }) {
   const [mealsData, setMealsData] = useState([]);
   const [drinksData, setDrinksData] = useState([]);
   const [recipeDetail, SetRecipeDetail] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   const memo = useMemo(() => ({
     state,
@@ -26,6 +27,8 @@ function CookProvider({ children }) {
     setMealsData,
     drinksData,
     setDrinksData,
+    recipes,
+    setRecipes,
   }), [
     state,
     urlFood,
@@ -37,6 +40,8 @@ function CookProvider({ children }) {
     setMealsData,
     drinksData,
     setDrinksData,
+    recipes,
+    setRecipes,
   ]);
 
   return (
