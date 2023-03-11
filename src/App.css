@@ -28,7 +28,7 @@
   min-width: 140px;
 }
 
-.start-recipe-btn {
+.recipe-details__buttons {
   background: #0fa36b;
   border: none;
   border-radius: 5px;

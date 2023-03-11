@@ -1,5 +1,5 @@
 import React from 'react';
-import RecipeDetails from './RecipeDetails';
+import RecipeDetails from '../components/RecipeDetails';
 
 export default function MealsDetails() {
   return (
