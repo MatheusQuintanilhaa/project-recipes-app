@@ -1,10 +1,12 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import FavoriteRecipes from '../pages/FavoriteRecipes';
+import { act } from 'react-dom/test-utils';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
+import App from '../App';
 
 const SPICY_ARRABIATA = 'Spicy Arrabiata Penne';
+const FAVORITE_RECIPES = '/favorite-recipes';
 
 const favoriteRecipes = [
   {
@@ -28,8 +30,9 @@ const favoriteRecipes = [
 ];
 
 describe('Testando a tela FavoriteRecipes', () => {
-  it('Testando se todos os botões são renderizados an tela', () => {
-    renderWithRouter(<FavoriteRecipes />);
+  it('Testando se todos os botões são renderizados na tela', () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
 
     const allButton = screen.getByTestId('filter-by-all-btn');
     const mealButton = screen.getByTestId('filter-by-meal-btn');
@@ -42,7 +45,9 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado todas as receitas favoritadas por padrão', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    renderWithRouter(<FavoriteRecipes />);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
 
     const allButton = screen.getByTestId('filter-by-all-btn');
     fireEvent.click(allButton);
@@ -56,7 +61,9 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testa se é renderizado apenas comidas quando o botão "Meals" é clickado', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    renderWithRouter(<FavoriteRecipes />);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
 
     const mealButton = screen.getByTestId('filter-by-meal-btn');
     fireEvent.click(mealButton);
@@ -70,7 +77,9 @@ describe('Testando a tela FavoriteRecipes', () => {
 
   it('Testando se é renderizado somentes os drinks quando o botão de drinks é clickado', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    renderWithRouter(<FavoriteRecipes />);
+
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
 
     const drinkButton = screen.getByTestId('filter-by-drink-btn');
     fireEvent.click(drinkButton);
@@ -85,7 +94,8 @@ describe('Testando a tela FavoriteRecipes', () => {
   it('Testando se quando o botão "Favorite" é clickado se é removido 1 item do localStorage', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
 
-    renderWithRouter(<FavoriteRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
 
     fireEvent.click(screen.getByTestId('0-horizontal-favorite-btn'));
 
@@ -96,7 +106,9 @@ describe('Testando a tela FavoriteRecipes', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
     navigator.clipboard = { writeText: jest.fn() };
 
-    renderWithRouter(<FavoriteRecipes />);
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push(FAVORITE_RECIPES));
+
     const shareButton = screen.getByTestId('0-horizontal-share-btn');
     fireEvent.click(shareButton);
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith('http://localhost:3000/meals/52771');

@@ -10,7 +10,10 @@ function CookProvider({ children }) {
   const urlFoodCategories = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
   const urlDrinkCategories = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
   const [state] = useState(INITIAL_STATE);
+  const [mealsData, setMealsData] = useState([]);
+  const [drinksData, setDrinksData] = useState([]);
   const [recipeDetail, SetRecipeDetail] = useState([]);
+  const [recipes, setRecipes] = useState([]);
 
   const memo = useMemo(() => ({
     state,
@@ -20,7 +23,26 @@ function CookProvider({ children }) {
     urlDrinkCategories,
     recipeDetail,
     SetRecipeDetail,
-  }), [state, urlFood, urlDrink, urlFoodCategories, urlDrinkCategories, recipeDetail]);
+    mealsData,
+    setMealsData,
+    drinksData,
+    setDrinksData,
+    recipes,
+    setRecipes,
+  }), [
+    state,
+    urlFood,
+    urlDrink,
+    urlFoodCategories,
+    urlDrinkCategories,
+    recipeDetail,
+    mealsData,
+    setMealsData,
+    drinksData,
+    setDrinksData,
+    recipes,
+    setRecipes,
+  ]);
 
   return (
     <CookContext.Provider
