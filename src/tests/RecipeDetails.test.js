@@ -48,5 +48,6 @@ describe('Testa o componente RecipeDetails', () => {
 
     const image = await screen.findByTestId('recipe-photo');
     expect(image).toBeInTheDocument();
+    //
   });
 });
