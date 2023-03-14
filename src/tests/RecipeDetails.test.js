@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import App from '../App';
-import CookProvider from '../context/CookProvider';
 import renderWithRouter from './renderWithRouter/renderWithRouter';
 
 describe('Testa o componente RecipeDetails', () => {
@@ -11,12 +11,8 @@ describe('Testa o componente RecipeDetails', () => {
   const startRecipeBtnId = 'start-recipe-btn';
 
   test('testando a tela de RecipeDetails', async () => {
-    renderWithRouter(
-      <CookProvider>
-        <App />
-      </CookProvider>,
-      { initialEntries: ['/drinks/15997'] },
-    );
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks/15997'));
 
     const favoriteBtn = await screen.findByTestId(favoriteBtnId);
     expect(favoriteBtn).toBeInTheDocument();
@@ -29,26 +25,29 @@ describe('Testa o componente RecipeDetails', () => {
   });
 
   test('testando a tela de Receita', async () => {
-    renderWithRouter(
-      <CookProvider>
-        <App />
-      </CookProvider>,
-      { initialEntries: ['/drinks/15997'] },
-    );
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/drinks/15997'));
+
     const startRecipeBtn = await screen.findByTestId(startRecipeBtnId);
     expect(startRecipeBtn).toBeInTheDocument();
   });
 
   it('testando button de compartilhar', async () => {
     window.document.execCommand = jest.fn(() => true);
-    renderWithRouter(
-      <CookProvider>
-        <App />
-      </CookProvider>,
-      { initialEntries: ['/meals/52978'] },
-    );
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals/52978'));
+
     const shareBtn = await screen.findByTestId(shareBtnId);
     expect(shareBtn).toBeInTheDocument();
     userEvent.click(shareBtn);
+  });
+
+  it('verificando a imagem', async () => {
+    const { history } = renderWithRouter(<App />);
+    act(() => history.push('/meals/52978'));
+
+    const image = await screen.findByTestId('recipe-photo');
+    expect(image).toBeInTheDocument();
+    //
   });
 });
